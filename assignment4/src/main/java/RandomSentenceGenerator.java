@@ -15,19 +15,14 @@ import java.util.Scanner;
 public class RandomSentenceGenerator {
     private static Map<String, File> map;
     private static Map<Integer, String> indexMap;
-//    private static  String OPTIONS = "The following grammars are available: \n" +
-//            "1. Insults \n" +
-//            "2. Term Paper Generator \n" +
-//            "3. Dear John letter \n" +
-//            "\n" +
-//            "Which would you like to use? (q to quit)\n";
-    public static void main(String[] args) throws InvalidArgumentException, IOException, ParseException {
-//        if(args == null || args.length == 0){
-//            throw new InvalidArgumentException("No such directory");
-//        }
-//        String dirStr = args[0].trim();
-        String dirStr = "src/main/resources";
-        System.out.println("Loading grammars...");
+
+    public static void main(String[] args) throws InvalidArgumentException {
+        if(args == null || args.length == 0){
+            throw new InvalidArgumentException("No such directory");
+        }
+        String dirStr = args[0].trim();
+//        String dirStr = "src/main/resources";
+//        System.out.println("Loading grammars...");
 
         //key:grammer_title value: the json file
         map = ReadFile.getFileMap(dirStr);

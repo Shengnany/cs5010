@@ -8,8 +8,12 @@ import static org.junit.jupiter.api.Assertions.*;
 class RandomSentenceGeneratorTest {
 
     @Test
-    void main() throws InvalidArgumentException, IOException, org.json.simple.parser.ParseException {
+    void main() throws InvalidArgumentException {
         RandomSentenceGenerator r = new RandomSentenceGenerator();
         r.main(new String[]{"src/main/resources"});
+        assertThrows(InvalidArgumentException.class,()->r.main(null));
+
     }
+
+
 }

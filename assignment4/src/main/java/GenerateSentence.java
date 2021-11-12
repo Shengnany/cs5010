@@ -1,3 +1,5 @@
+import java.util.Iterator;
+import java.util.Locale;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -26,7 +28,6 @@ public class GenerateSentence {
             obj = (JSONObject)parser.parse(reader);
             JSONArray jsonArray = (JSONArray)obj.get("start");
             String res = recurGenerate(jsonArray);
-
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
@@ -45,18 +46,26 @@ public class GenerateSentence {
         Pattern compile1 = Pattern.compile(regreplace);
         Matcher matcher1 = compile1.matcher((String)str);
         while (matcher1.find()) {
-            String rep = matcher1.group(0);
-            str = str.replaceFirst(rep,
-                recurGenerate((JSONArray) obj.get(rep.substring(1, rep.length() - 1))));
+            String rep = matcher1.group(0).toLowerCase(Locale.ROOT);
+            JSONArray ans = (JSONArray)getIgnoreCase(obj,rep.substring(1, rep.length() - 1));
+                //obj.get(rep.substring(1, rep.length() - 1));
+            str = str.replaceFirst(rep, recurGenerate(ans));
         }
         str.replaceAll("\\s+"," ");
-
-//            catch (NullPointerException e){
-//                System.out.println("There is no such sentences, please try again!");
-//                recurGenerate(arr);
-//            }
-
-
         return str;
+    }
+
+    public Object getIgnoreCase(JSONObject jobj, String key) {
+
+        Iterator<String> iter = jobj.keySet().iterator();
+        while (iter.hasNext()) {
+            String key1 = iter.next();
+            if (key1.equalsIgnoreCase(key)) {
+                return jobj.get(key1);
+            }
+        }
+
+        return null;
+
     }
 }
