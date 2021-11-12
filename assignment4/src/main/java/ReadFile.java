@@ -19,6 +19,7 @@ public class ReadFile {
         File[] files = dir.listFiles();
         JSONParser parser = new JSONParser();
         for(File file: files){
+            //判断文件是符合规范的，可使用的，.json
             if(file.isFile() && file.getName().endsWith(".json")){
                 try {
                     BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -34,6 +35,7 @@ public class ReadFile {
         }
         return map;
     }
+
     public static Map<Integer, String> getIndexMap( Map<String, File> map){
         Map<Integer, String> indexMap = new HashMap<>();
         JSONParser parser = new JSONParser();

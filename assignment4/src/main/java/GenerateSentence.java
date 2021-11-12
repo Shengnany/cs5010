@@ -31,13 +31,13 @@ public class GenerateSentence {
             e.printStackTrace();
         }
     }
-    public String generate(){
+    public String generate() throws NullPointerException {
         JSONArray jsonArray = (JSONArray)obj.get("start");
-        String res = recurGenerate(jsonArray).toString();
+        String res = recurGenerate(jsonArray);
         return res;
     }
 
-    private String recurGenerate(JSONArray arr){
+    private String recurGenerate(JSONArray arr) throws NullPointerException {
         int r = random.nextInt(arr.size());
         Object replace = arr.get(r);
         String str = (String) replace;
@@ -46,8 +46,17 @@ public class GenerateSentence {
         Matcher matcher1 = compile1.matcher((String)str);
         while (matcher1.find()) {
             String rep = matcher1.group(0);
-            str = str.replaceFirst(rep, recurGenerate((JSONArray) obj.get(rep.substring(1, rep.length() - 1))));
+            str = str.replaceFirst(rep,
+                recurGenerate((JSONArray) obj.get(rep.substring(1, rep.length() - 1))));
         }
+        str.replaceAll("\\s+"," ");
+
+//            catch (NullPointerException e){
+//                System.out.println("There is no such sentences, please try again!");
+//                recurGenerate(arr);
+//            }
+
+
         return str;
     }
 }

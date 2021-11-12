@@ -21,47 +21,20 @@ public class RandomSentenceGenerator {
 //            "3. Dear John letter \n" +
 //            "\n" +
 //            "Which would you like to use? (q to quit)\n";
-    public static void main(String[] args) throws IOException, InvalidArgumentException, ParseException {
-        if(args == null || args.length == 0){
-            throw new InvalidArgumentException("No such directory");
-        }
-        String dirStr = args[0].trim();
+    public static void main(String[] args) throws InvalidArgumentException, IOException, ParseException {
+//        if(args == null || args.length == 0){
+//            throw new InvalidArgumentException("No such directory");
+//        }
+//        String dirStr = args[0].trim();
+        String dirStr = "src/main/resources";
         System.out.println("Loading grammars...");
+
+        //key:grammer_title value: the json file
         map = ReadFile.getFileMap(dirStr);
+        //把json file的key 存成一個index從0開始的map
         indexMap = ReadFile.getIndexMap(map);
-        Scanner sc = new Scanner(System.in);
-        System.out.println("The following grammars are available: ");
-        for(int index: indexMap.keySet()){
-            System.out.println((1+index)+indexMap.get(index));
-        }
-        String input  = sc.nextLine();
-        if(isInteger(input)){
-            int o = Integer.parseInt(input);
-            GenerateSentence generator = new GenerateSentence(map.get(indexMap.get(o-1)));
-            System.out.println(generator.generate());
-        }
-        else if(input.trim().equals("q")){
-            return;
-        }
-        else{
-            throw new InvalidArgumentException("Invalid input");
-        }
-
+        GenerateOutput go = new GenerateOutput(map,indexMap);
+        go.dealWithOutput();
     }
-    // 空白
-    // 不存在的
-    // case??
-    //daxiaoxie
-    // 句点
 
-    private static boolean isInteger(String s) {
-        try {
-            Integer.parseInt(s);
-        } catch(NumberFormatException e) {
-            return false;
-        } catch(NullPointerException e) {
-            return false;
-        }
-        return true;
-    }
 }
