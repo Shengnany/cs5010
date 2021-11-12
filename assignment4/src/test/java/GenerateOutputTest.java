@@ -13,19 +13,18 @@ class GenerateOutputTest {
   GenerateOutput go;
   private Map<String, File> map;
   private Map<Integer, String> indexMap;
-
   @BeforeEach
   void setUp() {
-    map = new HashMap<>();
-    indexMap = new HashMap<>();
+    String path = "src/main/resources";
+    map = ReadFile.getFileMap(path);
+    indexMap = ReadFile.getIndexMap(map);
     go = new GenerateOutput(map,indexMap);
   }
 
 
   @Test
   void dealWithOutput1() throws InvalidArgumentException {
-    RandomSentenceGenerator r = new RandomSentenceGenerator();
-    r.main(new String[]{"src/main/resources"});
+    go.dealWithOutput();
     String str = "1\n";
     str +=  "q\n";
     ByteArrayInputStream in = new ByteArrayInputStream(str.getBytes());
@@ -37,8 +36,7 @@ class GenerateOutputTest {
   //error: y/n ->1
   @Test
   void dealWithOutput2() throws InvalidArgumentException {
-    RandomSentenceGenerator r = new RandomSentenceGenerator();
-    r.main(new String[]{"src/main/resources"});
+    go.dealWithOutput();
     String str = "1\n";
     str += "1\n";
     str += "y\n";
@@ -76,6 +74,19 @@ class GenerateOutputTest {
     str += "q\n";
     ByteArrayInputStream in = new ByteArrayInputStream(str.getBytes());
     System.setIn(in);
+  }
 
+  @Test
+  void dealWithOutput6() throws InvalidArgumentException {
+    go.dealWithOutput();
+    String str = "1\n";
+    str += "y\n";
+    str += "y\n";
+    str += "n\n";
+    str += "2\n";
+    str += "y\n";
+    str += "q\n";
+    ByteArrayInputStream in = new ByteArrayInputStream(str.getBytes());
+    System.setIn(in);
   }
 }

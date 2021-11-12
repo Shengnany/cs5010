@@ -13,12 +13,20 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * This class contains method that is used to generate sentence
+ */
 public class GenerateSentence {
     File file;
     Random random;
     JSONParser parser;
     BufferedReader reader;
     JSONObject obj;
+
+    /**
+     * This is the constructor of the GenerateSentence class
+     * @param file the grammar file to help generate the sentence
+     */
     public GenerateSentence(File file){
         this.file = file;
         random = new Random();
@@ -32,12 +40,25 @@ public class GenerateSentence {
             e.printStackTrace();
         }
     }
+
+    /**
+     * This method is used to initiate the recurrent generation of the sentence
+     * @return the result: generated string
+     * @throws NullPointerException if it does not contain the key word
+     */
     public String generate() throws NullPointerException {
         JSONArray jsonArray = (JSONArray)obj.get("start");
         String res = recurGenerate(jsonArray);
         return res;
     }
 
+    /**
+     * This method is used to generate a sentence recurrently
+     * @param arr the json array representing the options for the recurrence search,
+     *           a randomly selected key will be chosen from the array.
+     * @return the output sentence for the generation
+     * @throws NullPointerException if the grammar file does not exist the key.
+     */
     private String recurGenerate(JSONArray arr) throws NullPointerException {
         int r = random.nextInt(arr.size());
         Object replace = arr.get(r);
@@ -55,8 +76,13 @@ public class GenerateSentence {
         return str;
     }
 
+    /**
+     * This method is used to get the JSONArray of the non-terminal or terminal words
+     * @param jobj the file read in as JSON object
+     * @param key the non-terminal or terminal words
+     * @return the JSONArray object
+     */
     public Object getIgnoreCase(JSONObject jobj, String key) {
-
         Iterator<String> iter = jobj.keySet().iterator();
         while (iter.hasNext()) {
             String key1 = iter.next();
@@ -64,7 +90,6 @@ public class GenerateSentence {
                 return jobj.get(key1);
             }
         }
-
         return null;
 
     }
