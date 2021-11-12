@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>/Users/lucyhoney/IdeaProjects/Group_lucyxia_shengnanyou/assignment4/src/main/java</OriginalElement>
+  <nodes>
+    <node x="835.0" y="216.5">InvalidArgumentException</node>
+    <node x="451.5" y="0.0">GenerateSentence</node>
+    <node x="405.0" y="172.0">GenerateOutput</node>
+    <node x="0.0" y="194.0">ReadFile</node>
+    <node x="445.25" y="366.0">RandomSentenceGenerator</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="RandomSentenceGenerator" target="ReadFile" relationship="DEPENDENCY">
+      <point x="-67.0" y="-39.0" />
+      <point x="512.25" y="346.0" />
+      <point x="192.5" y="346.0" />
+      <point x="0.0" y="50.0" />
+    </edge>
+    <edge source="GenerateOutput" target="GenerateSentence" relationship="CREATE">
+      <point x="0.0" y="-72.0" />
+      <point x="0.0" y="61.0" />
+    </edge>
+    <edge source="RandomSentenceGenerator" target="InvalidArgumentException" relationship="CREATE">
+      <point x="67.0" y="-39.0" />
+      <point x="646.25" y="346.0" />
+      <point x="788.0" y="346.0" />
+      <point x="788.0" y="336.0" />
+      <point x="966.0" y="336.0" />
+      <point x="0.0" y="27.5" />
+    </edge>
+    <edge source="RandomSentenceGenerator" target="GenerateOutput" relationship="CREATE">
+      <point x="67.0" y="-39.0" />
+      <point x="646.25" y="346.0" />
+      <point x="788.0" y="346.0" />
+      <point x="788.0" y="336.0" />
+      <point x="610.0" y="336.0" />
+      <point x="0.0" y="72.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="0.8719785138764549" showDependencies="true" x="548.5" y="222.0" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
