@@ -1,0 +1,35 @@
+javadoc
+gitignore
+gettersetter tostring
+
+Checkstyle errors are present.
+To see checkstyle errors: Go to File-> Settings -> Tools checkstyle enable sunchecks.
+In Settings -> Editor->Inspections-> Enable Runtime scan for checkstyle.
+
+Test coverage for both is <70% (61% and 60% respectively.)
+Few magic strings present. Ex: "--", "," (?=([^\"]*\"[^\"]*\")*[^\"]*$)"
+
+
+equals(), hashCode() and toString()
+
+Error: Incorrect
+In the case of missing arguments.
+
+Template is read only once from the filesystem, and encoded into a meaningful data collection(s) (time
+and memory complexities are reasonable)
+
+Cannot execute your code and generate output:
+
+Run as:
+--csv-file insurance-company-members.csv --email --email-template email-template.txt --output-dir emails
+
+There exists an object to handle command line arguments.
+The CommandLineArgs processor object checks the arguments validity in more than one god-like method.
+The design should be relatively easy to extend (add a new option to the command line)
+Does not have the "God" class complex - one class to rule them all or one static method to rule them all
+* missed opportunities for helper methods
+* inappropriate visibility of methods/fields
+* relying on concrete types instead of abstract (interfaces or abstract class)
+Does not overuse `static` methods/fields
+Replacement procedure should be reasonably memory and time efficient\
+    :Not memory efficient, since the template is been read for each row; which is time consuming.
