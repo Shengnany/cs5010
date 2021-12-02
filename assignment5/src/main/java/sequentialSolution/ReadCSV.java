@@ -2,6 +2,7 @@ package sequentialSolution;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvException;
+import concurrentSolution.Record;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -14,9 +15,10 @@ public class ReadCSV {
   private File courseFile;
   private File studentFile;
   private Map<String, Map<Integer, Integer>> csv;
-  public ReadCSV(File courseFile, File studentFie) throws IOException, CsvException {
+
+  public ReadCSV(File courseFile, File studentFile) throws IOException, CsvException {
     this.courseFile = courseFile;
-    this.studentFile = studentFie;
+    this.studentFile = studentFile;
     this.csv = new HashMap<String, Map<Integer, Integer>>();
   }
 
@@ -31,10 +33,10 @@ public class ReadCSV {
     CSVReader csvReader = new CSVReaderBuilder(filereader)
         .withSkipLines(1)
         .build();
-    List<String[]> allData = csvReader.readAll();
-    for (String[] row : allData) {
-      System.out.println("==================== read course");
-      csv.put(row[0]+"_"+row[1], new HashMap<Integer, Integer>());
+    String[] nextRecord;
+    while ((nextRecord = csvReader.readNext()) != null) {
+      String key = nextRecord[0]+"_"+nextRecord[1];
+      csv.put(key, new HashMap<Integer, Integer>());
     }
   }
 
@@ -43,14 +45,12 @@ public class ReadCSV {
     CSVReader csvReader = new CSVReaderBuilder(filereader)
         .withSkipLines(1)
         .build();
-    List<String[]> allData = csvReader.readAll();
-    System.out.println(Arrays.toString(allData.get(2)));
-    for (String[] row : allData) {
-         String key = row[0]+"_"+row[1];
-         Map<Integer,Integer> map = csv.get(key);
-         int date = Integer.parseInt(row[4]);
-         map.put(date,map.getOrDefault(date,0)+Integer.parseInt(row[5]));
+    String[] nextRecord;
+    while ((nextRecord = csvReader.readNext()) != null) {
+      String key = nextRecord[0]+"_"+nextRecord[1];
+      Map<Integer,Integer> map = csv.get(key);
+      int date = Integer.parseInt(nextRecord[4]);
+      map.put(date,map.getOrDefault(date,0)+Integer.parseInt(nextRecord[5]));
     }
   }
-
 }

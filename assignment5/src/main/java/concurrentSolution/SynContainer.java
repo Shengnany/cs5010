@@ -1,17 +1,19 @@
 package concurrentSolution;
+
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import java.io.File;
 import java.io.FileReader;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class SynContainer {
   private Record[] records;
   private static final int BUF_SIZE = 2000;
   private int num;
   private boolean end;
-  private boolean endWrite;
 
   public SynContainer( ) {
     this.records = new Record[BUF_SIZE];
@@ -30,11 +32,13 @@ public class SynContainer {
 //    System.out.println(r);
     records[num] = r;
     num++;
+//    System.out.println("add" + Thread.currentThread().getName() + " " + num);
     this.notifyAll();
   }
 
   public synchronized Record pop(){
     while(num <= 0){
+//      System.out.println(this.isEnd() +" when num <=0" + num + Thread.currentThread().getName());
       if(this.isEnd()) {
 
         System.out.println("end agggregate");
@@ -48,10 +52,8 @@ public class SynContainer {
       }
     }
     num--;
+
     Record r = records[num];
-    if (r == null) {
-      System.out.println("++++++++++++++++++++++");
-    }
     this.notifyAll();
     return r;
   }
@@ -60,8 +62,41 @@ public class SynContainer {
     return end;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof SynContainer)) {
+      return false;
+    }
+    SynContainer that = (SynContainer) o;
+    return num == that.num && isEnd() == that.isEnd()
+        && Arrays.equals(records, that.records);
+  }
 
-  public void setEnd(boolean end) {
+  @Override
+  public int hashCode() {
+    int result = Objects.hash(num, isEnd());
+    result = 31 * result + Arrays.hashCode(records);
+    return result;
+  }
+
+  @Override
+  public String toString() {
+    return "SynContainer{" +
+        "records=" + Arrays.toString(records) +
+        ", num=" + num +
+        ", end=" + end
+       ;
+  }
+
+  public synchronized void setEnd(boolean end) {
     this.end = end;
+    this.notifyAll();
+  }
+
+  public Record[] getRecords() {
+    return records;
   }
 }

@@ -1,4 +1,7 @@
 package concurrentSolution;
+
+import java.util.Objects;
+
 public class Record {
   private String key;
   private int date;
@@ -19,6 +22,24 @@ public class Record {
 
   public int getCount() {
     return count;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof Record)) {
+      return false;
+    }
+    Record record = (Record) o;
+    return getDate() == record.getDate() && getCount() == record.getCount() && getKey().equals(
+        record.getKey());
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(getKey(), getDate(), getCount());
   }
 
   @Override
