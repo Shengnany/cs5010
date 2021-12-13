@@ -1,0 +1,106 @@
+plugins {
+    id 'java'
+    id 'pmd'
+    id 'jacoco'
+}
+
+group 'org.nu'
+version ''
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+
+    // https://mvnrepository.com/artifact/com.alibaba/fastjson
+    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+    implementation files('libs/assignment4-1.0-SNAPSHOT.jar')
+}
+
+
+test {
+    useJUnitPlatform()
+}
+
+pmd {
+    ignoreFailures=true
+    pmdTest.enabled=false
+    ruleSets = [
+            "category/java/bestpractices.xml",
+            "category/java/errorprone.xml",
+            "category/java/codestyle.xml"
+    ]
+}
+
+javadoc {
+    options.tags = ["date"]
+    doLast {
+        String fixedBuildDir = buildDir.toString().replace('\\', '/')
+        println "file:///$fixedBuildDir/docs/javadoc/index.html"
+    }
+}
+
+jacoco {
+    toolVersion = "0.8.7"
+}
+
+jacocoTestReport {
+    reports {
+        html.destination file("${buildDir}/jacocoHtml")
+    }
+
+    doLast {
+        String fixedBuildDir = buildDir.toString().replace('\\', '/')
+        println "file:///$fixedBuildDir/jacocoHtml/index.html"
+    }
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                // minimum percentage of code coverage
+                minimum = 0.7
+            }
+        }
+
+        rule {
+            enabled = false
+            element = 'CLASS'
+            includes = ['org.gradle.*']
+            limit {
+                counter = 'LINE'
+                value = 'TOTALCOUNT'
+                maximum = 0.3
+            }
+        }
+    }
+}
+
+// Fail the build if code coverage isn't high enough
+check.dependsOn jacocoTestCoverageVerification
+
+// Run code coverage after tests run
+jacocoTestReport.mustRunAfter test
+
+task doAll {
+    // Runs a java build. Imported from the java plugin
+    dependsOn build
+    // Runs all the tests. Imported from the java plugin.
+    dependsOn test
+    // Runs pmd. Imported by pmd plugin
+    dependsOn check
+    // Runs java doc. Imported from the java plugin
+    dependsOn javadoc
+    println 'all done!'
+}
+
+test {
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}
+
+configurations.implementation.setCanBeResolved(true)
