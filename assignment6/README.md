@@ -4,7 +4,7 @@
 
 run Server.main() to start the server. The ip address and port will print on the screen
 
-run Client.main() to start the client. Comman line arguments: <Ip address> <port>. e.g localhost 8080
+run Client.main() to start the client. Comman line arguments: \<Ip address\> \<port\>. e.g localhost 8080
 
 ## Description:
 
@@ -14,7 +14,7 @@ Client.java: the client of the chat app
 
 SendMessage.java: deal with client-side input
 
-WriteMessage.java: deal with client-side  output
+WriteMessage.java: deal with client-side output
 
 ChatManager.java: deal with server-side input and output
 
